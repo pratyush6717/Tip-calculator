@@ -1,87 +1,68 @@
-const input = document.getElementById('input')
-const button = document.querySelectorAll('.btn')
-const customTip = document.getElementById('customTip');
-const error = document.getElementById('error')
-const people = document.getElementById('people')
-const totalVal = document.querySelectorAll('.tipValue')
-const reset = document.querySelector('.reset')
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <title>Tip Calculator</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container" id="topContainer">
+        <div class="title">Bill total</div>
+        <div class="inputContainer">
+          <span>$</span>
+          <input
+            onkeyup="calculateBill()"
+            type="text"
+            id="billTotalInput"
+            placeholder="0.00"
+          />
+        </div>
+      </div>
+      <div class="container">
+        <div class="title">Tip</div>
+        <div class="inputContainer">
+          <span>%</span>
+          <input
+            onkeyup="calculateBill()"
+            type="text"
+            id="tipInput"
+            placeholder="10"
+          />
+        </div>
+      </div>
+      <div class="container" id="bottom">
+        <div class="splitContainer">
+          <div class="title">People</div>
+          <div class="controls">
+            <span class="buttonContainer">
+              <button class="splitButton" onclick="increasePeople()">
+                <span class="buttonText">+</span>
+              </button>
+            </span>
+            <span class="splitAmount" id="numberOfPeople">1</span>
+            <span class="buttonContainer">
+              <button class="splitButton" onclick="decreasePeople()">
+                <span class="buttonText">-</span>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="totalContainer">
+          <div class="title">Total per Person</div>
+          <div class="total" id="perPersonTotal">$0.00</div>
+        </div>
+      </div>
+    </div>
 
-let billVal = 0;
-let peopleVal = 1;
-let tipVal = 0.15;
-
-input.addEventListener('input',validateBill);
-
-function validateBill(){
-    if(input.value.includes(',')){
-        input.value.replace(',','.')
-    }
-    billVal = parseFloat(input.value);
-    calculate()
-    console.log(billVal)
-}
-
-customTip.addEventListener('input',tipCustomVal);
-people.addEventListener('input',setPeopleVal)
-reset.addEventListener('click',handleReset);
-button.forEach(btn => {
-    btn.addEventListener('click',handleClick)
-});
-
-
-
-function handleClick(event){
-    button.forEach(btn => {
-        btn.classList.remove('active')
-        if(event.target.innerHTML === btn.innerHTML){
-            btn.classList.add('active');
-            tipVal = parseFloat(btn.innerHTML)/100
-            console.log(tipVal)
-        }
-    })
-    customTip.value=''
-    calculate()
-}
-
-function tipCustomVal(){
-    tipVal = parseFloat(customTip.value/100)
-    button.forEach(btn => {
-        btn.classList.remove('active');
-    })
-    if(customTip.value !== 0){
-         calculate();
-         
-    }
-    console.log(tipVal)
-}
-
-function setPeopleVal(){
-    peopleVal = parseFloat(people.value)
-    if(peopleVal <= 0 ) {
-        error.innerHTML = 'number must be greater than zero'
-        setTimeout(function(){
-            error.innerHTML = ''
-        },2000)
-    }
-    console.log(peopleVal)
-    calculate() 
-}
-
-function calculate() {
-    if(peopleVal >= 1 ) {
-        let tip = billVal * tipVal / peopleVal;
-        let totalAmount = billVal * (tipVal + 1) / peopleVal;
-
-        totalVal[0].innerHTML = '$' + tip.toFixed(2);
-        totalVal[1].innerHTML = '$' + totalAmount.toFixed(2);
-    }
-}
-
-function handleReset(){
-    input.value = 0.0;
-    validateBill()
-
-    button[2].click();
-    people.value = 1;
-    setPeopleVal()
-}
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
